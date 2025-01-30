@@ -56,7 +56,24 @@ router.post('/',async(req,res)=>{
 });
 
 // add multiple menu items
-router.post('/all', async(req,res)=>{});
+router.post('/all', async(req,res)=>{
+    const menus = req.body;
+    for(let menu of menus){
+        const {error} = menuSchemaValidation.validate(menu);
+        if(error){
+            return res.status(400).json({message:error.details[0].message});
+        }
+    }
+
+    try{
+        const newMenus = req.body;
+        await Menu.insertMany(newMenus);
+        res.status(201).json({message: "Menu items added successfully", newMenus});
+    }
+    catch(err){
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // update menu item 
 router.put('/:id', async(req,res)=>{});
