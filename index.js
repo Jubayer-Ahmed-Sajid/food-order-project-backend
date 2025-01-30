@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const mongoose = require('mongoose');
+const menuRoutes = require('./Routes/MenuRoutes')
 require('dotenv').config(); 
 // middleware
 app.use(cors());
@@ -17,9 +18,15 @@ mongoose.connect(mongoURI)
 .catch((err)=>{
     console.log(err);
 })
+// routes
 app.get('/',(req,res)=>{
     res.send("Server is running");
 })
+
+// menu routes
+app.use("/menu",menuRoutes);
+
+
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`);
 })
