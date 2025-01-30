@@ -1,0 +1,52 @@
+const express = require("express");
+const joi = require("joi");
+const router = express.Router();
+const mongoose = require("mongoose");
+const Menu = new mongoose.model("Menu", menuSchema);
+const menuSchemaValidation = joi.object({
+  name: joi.string().required(),
+  category: joi.string(),
+  price: joi.number().required(),
+  availability: joi.boolean(),
+});
+
+// routes
+
+// get all menu items
+router.get("/", async (req, res) => {
+  try {
+    const menu = await Menu.find();
+    res.status(200).json({ menu });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// get menu item by id
+router.get("/:id", async (req, res) => {
+    try{
+        const id = req.params.id;
+        const menu = await Menu.findById(id);
+        res.status(200).json({ menu });
+    }
+    catch(err){
+        res.status(500).json({ message: err.message });
+    }
+  const id = req.params.id;
+  const menu = await Menu.findById(id);
+});
+
+// add new menu item 
+router.post('/',async(req,res)=>{});
+
+// add multiple menu items
+router.post('/all', async(req,res)=>{});
+
+// update menu item 
+router.put('/:id', async(req,res)=>{});
+
+// delete menu item by id
+router.delete('/:id', async(req,res)=>{});
+
+
+module.exports = router;
