@@ -4,7 +4,10 @@ const port = process.env.PORT || 5000;
 const cors = require('cors');
 const mongoose = require('mongoose');
 const menuRoutes = require('./Routes/MenuRoutes')
+const userRoutes = require('./Routes/userRoutes');
+const orderRoutes = require('./Routes/orderRoutes');
 require('dotenv').config(); 
+
 // middleware
 app.use(cors());
 app.use(express.json());
@@ -23,8 +26,16 @@ app.get('/',(req,res)=>{
     res.send("Server is running");
 })
 
+// user routes
+app.use("/user",userRoutes);
+
 // menu routes
 app.use("/menu",menuRoutes);
+
+// order routes
+app.use("/order",orderRoutes);
+
+
 
 
 app.listen(port,()=>{
