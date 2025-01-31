@@ -11,11 +11,16 @@ const jwt = require('jsonwebtoken');
 
 
 // middleware
-app.use(cors());
+
+app.use(cors(
+   { origin: "http://localhost:5173",
+    credentials: true
+   })
+);
 app.use(express.json());
 // verify token
 const verifyToken = (req,res,next)=>{
-    
+
 }
 
 // connect to mongoose
