@@ -33,7 +33,7 @@ const User = new mongoose.model("User", userSchema);
 // routes
 
 // get all users
-router.get("/", async (req, res) => {
+router.get("/all", async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json({ message: "Data successfully fetched ", users });
@@ -42,12 +42,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-// get user by id
-router.get("/:id", async (req, res) => {
+// get user by username and password
+router.get("/", async (req, res) => {
+    const {username,password} = req.body;
+    const isExist = await User.findOne({username});
+    if(!isExist){
+        return res.status(400).json({message:"User not found"});
+    }
   try {
-    const id = req.params.id;
-    const user = await User.findById(id);
-    res.status(200).json({ message: "Data successfully fetched ", user });
+    const isMatched = await isExist.comparePassword(password);
+    if(!isMatched){
+        return res.status(400).json({message:"Invalid credentials"});
+    }
+    res.status(200).json({ message: "User successfully logged in" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
