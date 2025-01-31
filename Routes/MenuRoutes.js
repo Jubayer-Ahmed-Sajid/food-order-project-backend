@@ -9,6 +9,7 @@ const menuSchemaValidation = joi.object({
   category:  joi.string().default("UnCategorized"),
   price: joi.number().required(),
   availability: joi.boolean().default(true),
+  image:joi.string().required()
 });
 
 //bulk validation schema

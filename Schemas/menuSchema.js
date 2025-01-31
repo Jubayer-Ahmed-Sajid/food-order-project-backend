@@ -12,6 +12,11 @@ const menuSchema = new mongoose.Schema({
     availability:{
         type:Boolean,
         default:true
+    },
+   image: {
+        type: String,
+        required: true
+
     }
 });
 module.exports = menuSchema;

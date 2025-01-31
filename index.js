@@ -7,10 +7,16 @@ const menuRoutes = require('./Routes/MenuRoutes')
 const userRoutes = require('./Routes/userRoutes');
 const orderRoutes = require('./Routes/orderRoutes');
 require('dotenv').config(); 
+const jwt = require('jsonwebtoken');
+
 
 // middleware
 app.use(cors());
 app.use(express.json());
+// verify token
+const verifyToken = (req,res,next)=>{
+    
+}
 
 // connect to mongoose
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.vqva6ft.mongodb.net/food-orderdb?retryWrites=true&w=majority&appName=Cluster0`
@@ -25,6 +31,18 @@ mongoose.connect(mongoURI)
 app.get('/',(req,res)=>{
     res.send("Server is running");
 })
+// auth routes
+app.post('/jwt', (req, res) => {
+    const user = req.body;
+
+    jwt.sign({user}, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
+        if (err) {
+            res.sendStatus(500);
+        } else {
+            res.json({ token });
+        }
+    });
+});
 
 // user routes
 app.use("/user",userRoutes);
