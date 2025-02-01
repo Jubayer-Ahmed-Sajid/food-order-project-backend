@@ -1,3 +1,4 @@
+const { array } = require('joi');
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     username:{
@@ -8,6 +9,10 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+   cartItem: {
+        type:Array,
+        default:[]
     }
 })
 module.exports = userSchema;
